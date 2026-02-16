@@ -4,6 +4,7 @@ interface ImportMetaEnv {
   readonly ID: string;
   readonly KEYWORDS: string[];
   readonly TITLE: string;
+  readonly DESCRIPTION: string;
 }
 
 interface ImportMeta {

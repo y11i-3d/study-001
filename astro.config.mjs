@@ -36,6 +36,7 @@ export default defineConfig({
       "import.meta.env.ID": JSON.stringify(id),
       "import.meta.env.KEYWORDS": JSON.stringify(keywords),
       "import.meta.env.TITLE": JSON.stringify(title),
+      "import.meta.env.DESCRIPTION": JSON.stringify(pkg.description),
     },
   },
 
