@@ -1,5 +1,4 @@
-import { mixRadian } from "@/scripts/tsl/mixRadian";
-import { safeAtan } from "@/scripts/tsl/safeAtan";
+import { lerpRad, safeAtan } from "@y11i-3d/tsl";
 import { useMemo } from "react";
 import {
   color,
@@ -93,8 +92,8 @@ export const useBlobShader = (uniforms: Uniforms) => {
       const phase3 = dot(position.xy, spin3);
 
       // ----- Mode Mix
-      const spinRad2 = mixRadian(spin2Rad2, spin3Rad2, mode3Mix);
-      const spinRad = mixRadian(spin2Rad, spin3Rad, mode3Mix);
+      const spinRad2 = lerpRad(spin2Rad2, spin3Rad2, mode3Mix);
+      const spinRad = lerpRad(spin2Rad, spin3Rad, mode3Mix);
       const phase = mix(phase2, phase3, mode3Mix);
 
       // ----- Mode2, Mode3
