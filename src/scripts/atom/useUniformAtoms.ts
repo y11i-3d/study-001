@@ -2,13 +2,15 @@ import { atom, useStore } from "jotai";
 import { useEffect, useMemo } from "react";
 import type { UniformNode } from "three/webgpu";
 
-type UniformAtoms<T extends Record<string, UniformNode<unknown>>> = {
-  [K in keyof T]: T[K] extends UniformNode<infer V>
+type UniformAtoms<T extends Record<string, UniformNode<unknown, unknown>>> = {
+  [K in keyof T]: T[K] extends UniformNode<unknown, infer V>
     ? ReturnType<typeof atom<V>>
     : never;
 };
 
-export const useUniformAtoms = <T extends Record<string, UniformNode<unknown>>>(
+export const useUniformAtoms = <
+  T extends Record<string, UniformNode<unknown, unknown>>,
+>(
   uniforms: T,
 ): UniformAtoms<T> => {
   const store = useStore();

@@ -13,6 +13,8 @@ import {
   sin,
   vec2,
 } from "three/tsl";
+import { type Node } from "three/webgpu";
+
 import type { Uniforms } from "./useUniforms";
 
 export const useBlobShader = (uniforms: Uniforms) => {
@@ -43,12 +45,15 @@ export const useBlobShader = (uniforms: Uniforms) => {
         ReturnType<typeof vec2>,
       ]) => {
         const adjustedAmp = amp.div(pow(sides, 2));
-        return sides
-          .equal(1)
-          .select(
-            vec2(1, 1),
-            pow(vec2(2, 2), cos(rad.mul(sides).sub(rotation)).mul(adjustedAmp)),
-          );
+        return sides.equal(1).select(
+          vec2(1, 1),
+          pow(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            vec2(2, 2) as any,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cos(rad.mul(sides).sub(rotation)).mul(adjustedAmp) as any,
+          ) as unknown as Node<"vec2">,
+        );
       },
     );
 
@@ -84,15 +89,16 @@ export const useBlobShader = (uniforms: Uniforms) => {
       const spinOffsetAngle = uSpinOffsetRotation;
 
       const spin3Rad2 = vec2(spin1Rad).add(
-        sin(spinOffsetAngle).mul(uSpinOffsetAmp),
-      );
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sin(spinOffsetAngle as any).mul(uSpinOffsetAmp),
+      ) as unknown as Node<"vec2">;
       const spin3 = vec2(cos(spin3Rad2.x), sin(spin3Rad2.y));
       const spin3Rad = safeAtan(spin3.y, spin3.x);
 
       const phase3 = dot(position.xy, spin3);
 
       // ----- Mode Mix
-      const spinRad2 = lerpRad(spin2Rad2, spin3Rad2, mode3Mix);
+      const spinRad2 = lerpRad(spin2Rad2, spin3Rad2, vec2(mode3Mix));
       const spinRad = lerpRad(spin2Rad, spin3Rad, mode3Mix);
       const phase = mix(phase2, phase3, mode3Mix);
 

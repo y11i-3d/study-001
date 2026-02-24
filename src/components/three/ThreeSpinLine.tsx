@@ -11,7 +11,7 @@ import {
   vec2,
   vec3,
 } from "three/tsl";
-import { PlaneGeometry } from "three/webgpu";
+import { PlaneGeometry, type Node } from "three/webgpu";
 import { useThreeContext } from "./ThreeProvider";
 import { BASE_SIZE } from "./constatns";
 
@@ -49,7 +49,10 @@ export const ThreeSpinLine = () => {
       const spinOffsetAngle = uSpinOffsetRotation;
 
       const spinAngle3 = vec2(spinAngle1).add(
-        sin(spinOffsetAngle).mul(uSpinOffsetAmp),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (sin(spinOffsetAngle as any) as unknown as Node<"vec2">).mul(
+          uSpinOffsetAmp,
+        ),
       );
       const spin3 = vec2(cos(spinAngle3.x), sin(spinAngle3.y));
 
